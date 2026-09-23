@@ -46,14 +46,27 @@ while attempt < max_retry:
 #Convert the JSON response into Python variable
         data = response.json()
 
+        #Check that API has returned data
+
+        if len(data) > 0:
+            try:
+
+
 #Open the output file and write the API data to it as JSON
 #Looks at the file we created as a variable, and then we are dumping the data into the file that we just created
-        with open(filename, 'w') as file:
-            json.dump(data, file)
+                with open(filename, 'w') as file:
+                    json.dump(data, file)
 
-    #Print that the filename was successfully saved
-        print(f'{filename} was successfully saved')
-        break
+            #Print that the filename was successfully saved
+                print(f'{filename} was successfully saved')
+                break
+            except Exception as e:
+                print(f'An error has occured: {e}')
+            break
+        #Write an else statement if no data is there
+        else:
+            print("No data has been retreived")
+            break
 
     #If in this bracket then we try again until the status_code reaches the number we want/reach max_retry
     elif status < 200 or status >= 500:
