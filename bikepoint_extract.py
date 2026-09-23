@@ -9,6 +9,8 @@ import json
 from datetime import datetime as dt
 import time
 
+import logging 
+
 #API endpoint we want to extract the data from 
 url = 'https://api.tfl.gov.uk/BikePoint/'
 
@@ -19,13 +21,31 @@ data_dir = 'data'
 os.makedirs(data_dir, exist_ok = True)
 
 
+
 #Create a timestamp so each extract gets a unique filename 
 timestamp = dt.now().strftime('%Y-%m-%d %H-%M-%S')
 filename = f'{data_dir}/{timestamp}.json'
 #Save in data dictionary folder, then save the file with the name of the timestamp variable, and save as json
 
-#Setup a while loop to keep trying in case the API fails
+#Make a folder for log files if it doesn't already exist
+log_dir = 'log'
+os.makedirs(log_dir, exist_ok = True)
+log_filename = f'{data_dir}/{timestamp}.json'
 
+
+#Configure logging so messages are written to the log file
+logging.basicConfig(
+    filename = log_filename,
+    format = '%(asctime)s - %(levelname)s -%(message)',
+    level = logging.INFO
+    #Base level is info
+)
+
+#Create the logger and confirm that is has been successfully set up 
+logger = logging.getLogger()
+logger.info('Logger successfully initialised')
+
+#Setup a while loop to keep trying in case the API fails
 max_retry = 5
 attempt = 0
 delay = 10
@@ -59,13 +79,16 @@ while attempt < max_retry:
 
             #Print that the filename was successfully saved
                 print(f'{filename} was successfully saved')
+                logger.info(f'{filename} was successfully saved') #What we see in our logger, .info just information and what is inside the string is the output
                 break
             except Exception as e:
                 print(f'An error has occured: {e}')
+                logger.error(f'An error has occured: {e}')
             break
         #Write an else statement if no data is there
         else:
-            print("No data has been retreived")
+            print("No data has been retrieved")
+            logger.warning("No data has been retrieved")
             break
 
     #If in this bracket then we try again until the status_code reaches the number we want/reach max_retry
@@ -73,7 +96,9 @@ while attempt < max_retry:
         time.sleep(delay)
         attempt += 1
         print(f'Status code {status}. Retrying attempt number {attempt}')
+        logger.info(f'Status code {status}. Retrying attempt number {attempt}')
  
     else:
         print(f'Error. Status code {status}. Fix it')
+        logger.critical(f'Error. Status code {status}. Fix it')
         break
