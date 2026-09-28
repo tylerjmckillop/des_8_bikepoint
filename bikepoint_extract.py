@@ -26,13 +26,13 @@ filename = f'{data_dir}/{timestamp}.json'
 #Make a folder for log files if it doesn't already exist
 log_dir = 'log'
 os.makedirs(log_dir, exist_ok = True)
-log_filename = f'{data_dir}/{timestamp}.log'
+log_filename = f'{log_dir}/{timestamp}.log'
 
 
 #Configure logging so messages are written to the log file
 logging.basicConfig(
     filename = log_filename,
-    format = '%(asctime)s - %(levelname)s -%(message)',
+    format = '%(asctime)s - %(levelname)s - %(message)',
     level = logging.INFO
     #Base level is info
 )
