@@ -1,14 +1,10 @@
 #Import the packages required
 
 import requests
-
 import os 
-
 import json 
-
 from datetime import datetime as dt
 import time
-
 import logging 
 
 #API endpoint we want to extract the data from 
