@@ -5,7 +5,7 @@ import os
 import json 
 from datetime import datetime as dt
 import time
-import logging 
+import logging
 
 #API endpoint we want to extract the data from 
 url = 'https://api.tfl.gov.uk/BikePoint/'
@@ -26,7 +26,7 @@ filename = f'{data_dir}/{timestamp}.json'
 #Make a folder for log files if it doesn't already exist
 log_dir = 'log'
 os.makedirs(log_dir, exist_ok = True)
-log_filename = f'{data_dir}/{timestamp}.json'
+log_filename = f'{data_dir}/{timestamp}.log'
 
 
 #Configure logging so messages are written to the log file
