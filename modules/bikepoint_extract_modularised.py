@@ -7,11 +7,22 @@ from datetime import datetime as dt
 import time
 import logging
 
-def extract(data_dir: str, url: str, filename: str, timestamp: str, max_retry: int, delay: int):
+def extract(data_dir: str, url: str, timestamp: str, max_retry: int, delay: int):
+    """Extracts JSON
 
+    Args:
+        data_dir (str): Where you want to store the data
+        url (str): The URL where you want to download JSON from
+        timestamp (str): The filename will be this
+        max_retry (int): The numer of times to retry the API
+        delay (int): How long to wait between retries (seconds)
+    """
     os.makedirs(data_dir, exist_ok = True)
+    logger = logging.getLogger(__name__)
+    filename = f'{data_dir}/{timestamp}.json'
+
     attempt = 0
-    
+
     while attempt < max_retry:
         response = requests.get(url)
         status = response.status_code
