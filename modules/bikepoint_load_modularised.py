@@ -1,13 +1,19 @@
 import os
 import boto3
-from dotenv import load_dotenv
 import logging
 from datetime import datetime as dt
 
-# Obtain .env variables
-load_dotenv()
+logger = logging.getLogger(__name__)
 
-def load(AWS_ACCESS_KEY: str, AWS_SECRET_ACCESS_KEY: str, AWS_BUCKET_NAME, data_dir:str):
+def load_files_to_s3(data_dir: str, AWS_ACCESS_KEY: str, AWS_SECRET_ACCESS_KEY: str, AWS_BUCKET_NAME: str):
+    """Uploads all files in the data directory to S3.
+
+    Args:
+        data_dir (str): Where the data is
+        AWS_ACCESS_KEY (str): linked to AWS IAM User
+        AWS_SECRET_ACCESS_KEY (str): linked to AWS IAM User
+        AWS_BUCKET_NAME (_type_): S3 Bucket to upload to
+    """
     # Set up S3 client
     s3_client = boto3.client(
         's3',
@@ -31,8 +37,7 @@ def load(AWS_ACCESS_KEY: str, AWS_SECRET_ACCESS_KEY: str, AWS_BUCKET_NAME, data_
         level = logging.INFO
     )
 
-    # Create the logger and confirm that is has been successfully set up 
-    logger = logging.getLogger(__name__)
+    # Create the logger and confirm that is has been successfully set up
     logger.info('Logger successfully initialised')
 
     # Upload every file in our data folder
