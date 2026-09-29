@@ -32,7 +32,7 @@ log_filename = f'{log_dir}/{timestamp}.log'
 #Configure logging so messages are written to the log file
 logging.basicConfig(
     filename = log_filename,
-    format = '%(asctime)s - %(levelname)s - %(message)',
+    format = '%(asctime)s - %(levelname)s - %(message)s',
     level = logging.INFO
     #Base level is info
 )
